@@ -12,11 +12,7 @@ const portfolioPrevBtn = document.querySelector('.portfolio-nav .prev');
 const portfolioNextBtn = document.querySelector('.portfolio-nav .next');
 
 // Testimonial Elements
-let currentTestimonial = 0;
 const testimonialCards = document.querySelectorAll('.testimonial-card');
-const testimonialDots = document.querySelectorAll('.testimonial-dots .dot');
-const prevBtn = document.querySelector('.testimonial-nav .prev');
-const nextBtn = document.querySelector('.testimonial-nav .next');
 
 // Portfolio Modal Functionality
 const modal = document.getElementById('portfolioModal');
@@ -108,43 +104,7 @@ filterButtons.forEach(button => {
     });
 });
 
-// Testimonial Slider Functions
-function showTestimonial(index) {
-    testimonialCards.forEach((card, i) => {
-        card.classList.toggle('active', i === index);
-    });
-    
-    testimonialDots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-    });
-}
 
-function nextTestimonial() {
-    currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
-    showTestimonial(currentTestimonial);
-}
-
-function prevTestimonial() {
-    currentTestimonial = (currentTestimonial - 1 + testimonialCards.length) % testimonialCards.length;
-    showTestimonial(currentTestimonial);
-}
-
-// Event listeners for testimonial navigation
-if (prevBtn && nextBtn) {
-    prevBtn.addEventListener('click', prevTestimonial);
-    nextBtn.addEventListener('click', nextTestimonial);
-}
-
-// Dot navigation for testimonials
-testimonialDots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        currentTestimonial = index;
-        showTestimonial(currentTestimonial);
-    });
-});
-
-// Auto-advance testimonials
-setInterval(nextTestimonial, 5000);
 
 // Contact Form Handling
 if (contactForm) {
@@ -394,10 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
     
-    // Initialize first testimonial as active
-    if (testimonialCards.length > 0) {
-        showTestimonial(0);
-    }
+
     
     // Add hover effects to portfolio items
     portfolioItems.forEach(item => {

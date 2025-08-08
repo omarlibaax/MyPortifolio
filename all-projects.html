@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Projects - OMARINHO Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .all-projects-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d8a3a 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .all-projects-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .all-projects-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .projects-gallery {
+            padding: 80px 0;
+            background: var(--bg-light);
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .gallery-filter-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--border-light);
+            background: var(--bg-white);
+            color: var(--text-gray);
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gallery-filter-btn.active,
+        .gallery-filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(56, 176, 74, 0.1);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(56, 176, 74, 0.2);
+        }
+
+        .gallery-image {
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-image img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(56, 176, 74, 0.9);
+            color: var(--bg-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay-content {
+            text-align: center;
+        }
+
+        .gallery-overlay-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .gallery-overlay-content p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .gallery-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-info h3 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .gallery-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .gallery-tag {
+            background: rgba(56, 176, 74, 0.1);
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .back-to-portfolio {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--bg-white);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 15px 30px;
+            background: var(--primary-color);
+            color: var(--bg-white);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 176, 74, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .all-projects-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .gallery-filters {
+                gap: 0.5rem;
+            }
+
+            .gallery-filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .all-projects-header h1 {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                        <div class="logo-icon">O</div>
+                        <span class="logo-text">OMARINHO</span>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html#about" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html#skills" class="nav-link">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html#portfolio" class="nav-link">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="index.html#testimonial" class="nav-link">Testimonial</a>
+                    </li>
+                </ul>
+                <div class="nav-cta">
+                    <a href="index.html#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- All Projects Header -->
+    <section class="all-projects-header">
+        <div class="container">
+            <h1>All Projects</h1>
+            <p>Explore my complete collection of design work, from web development to graphic design and digital art</p>
+        </div>
+    </section>
+
+    <!-- Projects Gallery -->
+    <section class="projects-gallery">
+        <div class="container">
+            <div class="gallery-filters">
+                <button class="gallery-filter-btn active" data-filter="all">All Projects</button>
+                <button class="gallery-filter-btn" data-filter="web">Web Development</button>
+                <button class="gallery-filter-btn" data-filter="design">Graphic Design</button>
+                <button class="gallery-filter-btn" data-filter="posters">Posters</button>
+                <button class="gallery-filter-btn" data-filter="digital-art">Digital Art</button>
+            </div>
+
+            <div class="gallery-grid">
+
+
+                <!-- Brain Testing Game -->
+                <div class="gallery-item" data-category="web">
+                    <div class="gallery-image">
+                        <img src="WebDevelopment/Brain Testing Game.png" alt="Brain Testing Game">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Brain Testing Game</h3>
+                                <p>Web Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Brain Testing Game</h3>
+                        <p>Interactive brain testing game built with modern web technologies, featuring engaging puzzles and cognitive challenges.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Web Development</span>
+                            <span class="gallery-tag">Game</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Portfolio -->
+                <div class="gallery-item" data-category="web">
+                    <div class="gallery-image">
+                        <img src="WebDevelopment/MyPortfolio.png" alt="My Portfolio">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>My Portfolio</h3>
+                                <p>Web Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>My Portfolio</h3>
+                        <p>Professional portfolio website showcasing web development skills with modern design and responsive layout.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Web Development</span>
+                            <span class="gallery-tag">Portfolio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Al-Istiqama -->
+                <div class="gallery-item" data-category="web">
+                    <div class="gallery-image">
+                        <img src="WebDevelopment/Al-Istiqama.png" alt="Al-Istiqama">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Al-Istiqama</h3>
+                                <p>Web Development</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Al-Istiqama</h3>
+                        <p>Comprehensive business website for Al-Istiqama, featuring modern design and professional functionality.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Web Development</span>
+                            <span class="gallery-tag">Business</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Poster Collection -->
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster166-02.jpg" alt="Poster Design Collection">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Poster Design Collection</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Poster Design Collection</h3>
+                        <p>Creative poster designs with modern aesthetics and visual communication.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Posters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketing Posters -->
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster165-01.jpg" alt="Marketing Posters">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Marketing Posters</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Marketing Posters</h3>
+                        <p>Professional marketing campaign designs with strong visual impact.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Marketing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Posters -->
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster158-05.jpg" alt="Event Posters">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Event Posters</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Event Posters</h3>
+                        <p>Dynamic event promotion designs with creative layouts.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Events</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brand Identity -->
+                <div class="gallery-item" data-category="design">
+                    <div class="gallery-image">
+                        <img src="Designs/poster158-04.jpg" alt="Brand Identity">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Brand Identity</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Brand Identity</h3>
+                        <p>Complete brand identity and logo designs for businesses.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Branding</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digital Art -->
+                <div class="gallery-item" data-category="digital-art">
+                    <div class="gallery-image">
+                        <img src="Designs/poster160-03.jpg" alt="Digital Art Collection">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Digital Art Collection</h3>
+                                <p>Digital Art</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Digital Art Collection</h3>
+                        <p>Creative digital art and illustrations with innovative concepts.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Digital Art</span>
+                            <span class="gallery-tag">Illustration</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Posters -->
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster159-02.jpg" alt="Creative Poster">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Creative Poster</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Creative Poster</h3>
+                        <p>Innovative poster design with artistic elements.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Creative</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster159-03.jpg" alt="Modern Poster">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Modern Poster</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Modern Poster</h3>
+                        <p>Contemporary poster design with modern aesthetics.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Modern</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster158-01.jpg" alt="Event Design">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Event Design</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Event Design</h3>
+                        <p>Dynamic event design with engaging visual elements.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Events</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster156-01.jpg" alt="Promotional Design">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Promotional Design</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Promotional Design</h3>
+                        <p>Effective promotional materials for marketing campaigns.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Promotion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster 155-01.jpg" alt="Artistic Design">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Artistic Design</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Artistic Design</h3>
+                        <p>Artistic poster design with creative visual elements.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Artistic</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="design posters">
+                    <div class="gallery-image">
+                        <img src="Designs/poster154-01.jpg" alt="Visual Design">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <h3>Visual Design</h3>
+                                <p>Graphic Design</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Visual Design</h3>
+                        <p>Striking visual design with bold composition.</p>
+                        <div class="gallery-tags">
+                            <span class="gallery-tag">Graphic Design</span>
+                            <span class="gallery-tag">Visual</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Portfolio -->
+    <section class="back-to-portfolio">
+        <div class="container">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Portfolio
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">O</div>
+                        <span class="logo-text">OMARINHO</span>
+                    </div>
+                    <p class="footer-description">Passionate about creating exceptional digital experiences through innovative design and development solutions.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/omarlibaax10" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/omarlibax" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@omarlibaax" class="social-link" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://www.behance.net/omarlibaax" class="social-link" aria-label="Behance">
+                            <i class="fab fa-behance"></i>
+                        </a>
+                        <a href="https://github.com/omarlibaax" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="index.html#portfolio">Web Development</a></li>
+                            <li><a href="index.html#portfolio">Graphic Design</a></li>
+                            <li><a href="index.html#portfolio">Video Editing</a></li>
+                            <li><a href="index.html#portfolio">Digital Art</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html#about">About Me</a></li>
+                            <li><a href="index.html#skills">Skills</a></li>
+                            <li><a href="index.html#portfolio">Portfolio</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contact Info</h4>
+                        <ul>
+                            <li><i class="fab fa-whatsapp"></i> +252 613 797 589</li>
+                            <li><i class="fas fa-envelope"></i> omarlibaax@gmail.com</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Hodan District, Mogadishu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        <p>&copy; 2025 Copyright. All Rights Reserved.</p>
+                    </div>
+                    <div class="footer-developed">
+                        <p>Developed with <span class="heart">❤️</span> by <strong>OMARINHO</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modal -->
+    <div id="portfolioModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Project Title</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Project Image">
+                </div>
+                <div class="modal-links">
+                    <div class="project-links" id="modalLinks">
+                        <!-- Project links will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gallery filtering functionality
+            const galleryFilterBtns = document.querySelectorAll('.gallery-filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const modal = document.getElementById('portfolioModal');
+            const closeBtn = document.querySelector('.close');
+
+            // Add fadeIn animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Gallery filtering functionality
+            galleryFilterBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log('Filter button clicked:', button.getAttribute('data-filter'));
+                    
+                    // Remove active class from all buttons
+                    galleryFilterBtns.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    const filterValue = button.getAttribute('data-filter');
+                    
+                    galleryItems.forEach(item => {
+                        const categories = item.getAttribute('data-category').split(' ');
+                        console.log('Item categories:', categories, 'Filter:', filterValue);
+                        
+                        if (filterValue === 'all' || categories.includes(filterValue)) {
+                            item.style.display = 'block';
+                            item.style.animation = 'fadeIn 0.5s ease-in-out';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Gallery item click to open modal
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const image = item.querySelector('.gallery-image img');
+                    const title = item.querySelector('.gallery-info h3').textContent;
+                    
+                    // Populate modal
+                    document.getElementById('modalTitle').textContent = title;
+                    document.getElementById('modalImage').src = image.src;
+                    document.getElementById('modalImage').alt = title;
+                    
+                    // Add Behance link
+                    const linksContainer = document.getElementById('modalLinks');
+                    linksContainer.innerHTML = '';
+                    
+                    const behanceBtn = document.createElement('a');
+                    behanceBtn.href = 'https://www.behance.net/omarlibaax';
+                    behanceBtn.target = '_blank';
+                    behanceBtn.className = 'btn btn-outline';
+                    behanceBtn.innerHTML = '<i class="fab fa-behance"></i> View on Behance';
+                    linksContainer.appendChild(behanceBtn);
+                    
+                    // Show modal
+                    modal.style.display = 'block';
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 10);
+                });
+            });
+
+            // Modal close functionality
+            function closeModal() {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+
+            // Close modal when clicking close button
+            closeBtn.addEventListener('click', closeModal);
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    closeModal();
+                }
+            });
+
+            // Mobile navigation
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

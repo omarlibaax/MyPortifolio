@@ -291,18 +291,7 @@ style.textContent = `
         transform: translateY(0);
     }
     
-    .testimonial-card {
-        display: none;
-        opacity: 0;
-        transform: translateX(50px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    
-    .testimonial-card.active {
-        display: block;
-        opacity: 1;
-        transform: translateX(0);
-    }
+
     
     .portfolio-item {
         animation: fadeIn 0.5s ease-in-out;
@@ -347,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
     
     // Add fade-in animation to elements
-    const animatedElements = document.querySelectorAll('.skill-card, .portfolio-item, .testimonial-card, .contact-item');
+    const animatedElements = document.querySelectorAll('.skill-card, .portfolio-item, .contact-item');
     
     animatedElements.forEach(el => {
         el.classList.add('fade-in');

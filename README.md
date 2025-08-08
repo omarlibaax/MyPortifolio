@@ -26,7 +26,7 @@ A modern, responsive portfolio website built with HTML, CSS, and JavaScript. Fea
 - **Testimonial Slider**: Auto-rotating testimonials with manual navigation
 - **Skill Bar Animations**: Animated progress bars triggered on scroll
 - **Form Validation**: Contact form with email validation and notifications
-- **Scroll Effects**: Parallax effects and scroll-triggered animations
+- **Scroll Effects**: Parallax effects and scroll-triggered
 
 ## 🚀 Getting Started
 

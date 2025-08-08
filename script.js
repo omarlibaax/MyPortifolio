@@ -442,3 +442,293 @@ window.addEventListener('scroll', () => {
         }
     });
 }); 
+
+// Portfolio Filtering
+const filterButtons = document.querySelectorAll('.filter-btn');
+const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        const filterValue = button.getAttribute('data-filter');
+        
+        portfolioItems.forEach(item => {
+            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                item.style.display = 'block';
+                item.style.animation = 'fadeIn 0.5s ease-in-out';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+
+// Testimonial Slider
+const testimonialCards = document.querySelectorAll('.testimonial-card');
+const testimonialDots = document.querySelectorAll('.testimonial-dots .dot');
+const prevBtn = document.querySelector('.testimonial-nav .prev');
+const nextBtn = document.querySelector('.testimonial-nav .next');
+let currentTestimonial = 0;
+
+function showTestimonial(index) {
+    testimonialCards.forEach((card, i) => {
+        card.classList.toggle('active', i === index);
+    });
+    
+    testimonialDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+}
+
+function nextTestimonial() {
+    currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
+    showTestimonial(currentTestimonial);
+}
+
+function prevTestimonial() {
+    currentTestimonial = (currentTestimonial - 1 + testimonialCards.length) % testimonialCards.length;
+    showTestimonial(currentTestimonial);
+}
+
+// Event listeners for testimonial navigation
+if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', prevTestimonial);
+    nextBtn.addEventListener('click', nextTestimonial);
+}
+
+// Dot navigation for testimonials
+testimonialDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        currentTestimonial = index;
+        showTestimonial(currentTestimonial);
+    });
+});
+
+// Auto-advance testimonials
+setInterval(nextTestimonial, 5000);
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Header scroll effect
+const header = document.querySelector('.header');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.98)';
+        header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+    } else {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+        header.style.boxShadow = 'none';
+    }
+    
+    lastScrollTop = scrollTop;
+});
+
+// Animate elements on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, observerOptions);
+
+// Observe elements for animation
+document.querySelectorAll('.skill-card, .portfolio-item, .testimonial-card, .contact-item').forEach(el => {
+    el.classList.add('fade-in');
+    observer.observe(el);
+});
+
+// Progress bar animation
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    progressBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 500);
+    });
+}
+
+// Trigger progress bar animation when skills section is visible
+const skillsSection = document.querySelector('.skills');
+const skillsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateProgressBars();
+            skillsObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+if (skillsSection) {
+    skillsObserver.observe(skillsSection);
+}
+
+// Form submission handling
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        // Simulate form submission (replace with actual form handling)
+        setTimeout(() => {
+            // Show success message
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+            submitBtn.style.background = '#28a745';
+            
+            // Reset form
+            this.reset();
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                submitBtn.disabled = false;
+            }, 3000);
+        }, 2000);
+    });
+}
+
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .testimonial-card {
+        display: none;
+        opacity: 0;
+        transform: translateX(50px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .testimonial-card.active {
+        display: block;
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .portfolio-item {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize first testimonial as active
+if (testimonialCards.length > 0) {
+    showTestimonial(0);
+}
+
+// Add hover effects for portfolio items
+portfolioItems.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+        item.style.transform = 'translateY(-10px)';
+    });
+    
+    item.addEventListener('mouseleave', () => {
+        item.style.transform = 'translateY(0)';
+    });
+});
+
+// Add click effects for buttons
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+});
+
+// Add ripple effect CSS
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
+    .btn {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(rippleStyle); 

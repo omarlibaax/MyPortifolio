@@ -1013,18 +1013,13 @@ body {
     display: block;
 }
 
-.testimonial-verified {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.fa-check-circle {
     color: #10b981;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 500;
+    margin-left: 0.2rem;
 }
 
-.testimonial-verified i {
-    font-size: 1rem;
-}
 
 /* Contact Section */
 .contact {
@@ -1102,17 +1097,100 @@ body {
 }
 
 .contact-social {
-    padding: 1.5rem;
-    border-radius: 12px;
-    background: var(--bg-light);
-    border: 1px solid var(--border-light);
+    padding: 2rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(56, 176, 74, 0.05) 0%, rgba(45, 138, 58, 0.05) 100%);
+    border: 2px solid rgba(56, 176, 74, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.contact-social h3 {
+.contact-social::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), #2d8a3a);
+}
+
+.social-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.social-header h3 {
     color: var(--text-dark);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+}
+
+.social-header p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.social-links .social-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-gray);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-links .social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(56, 176, 74, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.social-links .social-link:hover::before {
+    left: 100%;
+}
+
+.social-links .social-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(56, 176, 74, 0.15);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.social-links .social-link i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.social-links .social-link .social-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.social-links .social-link:hover i {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 
 .contact-form {

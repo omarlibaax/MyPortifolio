@@ -17,6 +17,11 @@ const reviewCards = document.querySelectorAll('.review-card');
 const reviewsPrevBtn = document.querySelector('.reviews-nav .prev');
 const reviewsNextBtn = document.querySelector('.reviews-nav .next');
 
+// Portfolio Modal Functionality
+const modal = document.getElementById('portfolioModal');
+const modalTriggers = document.querySelectorAll('.modal-trigger');
+const closeBtn = document.querySelector('.close');
+
 // Mobile Navigation Toggle
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
@@ -732,3 +737,116 @@ rippleStyle.textContent = `
     }
 `;
 document.head.appendChild(rippleStyle); 
+
+// Portfolio Modal Functionality
+modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const portfolioItem = trigger.closest('.portfolio-item');
+        openModal(portfolioItem);
+    });
+});
+
+// Close modal when close button is clicked
+closeBtn.addEventListener('click', () => {
+    closeModal();
+});
+
+// Close modal when clicking outside the modal content
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeModal();
+    }
+});
+
+function openModal(portfolioItem) {
+    // Get project data from data attributes
+    const title = portfolioItem.getAttribute('data-title');
+    const description = portfolioItem.getAttribute('data-description');
+    const image = portfolioItem.getAttribute('data-image');
+    const technologies = portfolioItem.getAttribute('data-technologies');
+    const features = portfolioItem.getAttribute('data-features');
+    const github = portfolioItem.getAttribute('data-github');
+    const behance = portfolioItem.getAttribute('data-behance');
+    const live = portfolioItem.getAttribute('data-live');
+
+    // Populate modal content
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalDescription').textContent = description;
+    document.getElementById('modalImage').src = image;
+    document.getElementById('modalImage').alt = title;
+
+    // Populate technologies
+    const techContainer = document.getElementById('modalTechnologies');
+    techContainer.innerHTML = '';
+    if (technologies) {
+        technologies.split(',').forEach(tech => {
+            const tag = document.createElement('span');
+            tag.className = 'tech-tag';
+            tag.textContent = tech.trim();
+            techContainer.appendChild(tag);
+        });
+    }
+
+    // Populate features
+    const featuresContainer = document.getElementById('modalFeatures');
+    featuresContainer.innerHTML = '';
+    if (features) {
+        features.split(',').forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature.trim();
+            featuresContainer.appendChild(li);
+        });
+    }
+
+    // Populate project links
+    const linksContainer = document.getElementById('modalLinks');
+    linksContainer.innerHTML = '';
+    
+    if (github) {
+        const githubBtn = document.createElement('a');
+        githubBtn.href = github;
+        githubBtn.target = '_blank';
+        githubBtn.className = 'btn btn-primary';
+        githubBtn.innerHTML = '<i class="fab fa-github"></i> View Code';
+        linksContainer.appendChild(githubBtn);
+    }
+    
+    if (behance) {
+        const behanceBtn = document.createElement('a');
+        behanceBtn.href = behance;
+        behanceBtn.target = '_blank';
+        behanceBtn.className = 'btn btn-outline';
+        behanceBtn.innerHTML = '<i class="fab fa-behance"></i> View on Behance';
+        linksContainer.appendChild(behanceBtn);
+    }
+    
+    if (live) {
+        const liveBtn = document.createElement('a');
+        liveBtn.href = live;
+        liveBtn.target = '_blank';
+        liveBtn.className = 'btn btn-primary';
+        liveBtn.innerHTML = '<i class="fas fa-external-link-alt"></i> Live Demo';
+        linksContainer.appendChild(liveBtn);
+    }
+
+    // Show modal with animation
+    modal.style.display = 'block';
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+}
+
+function closeModal() {
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+} 
